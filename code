@@ -1,0 +1,41 @@
+vector<vector<ll> >multiply(vector<vector<ll> >&v1,vector<vector<ll> >&v2)
+{
+    ll sz=v1.size();
+    vector<vector<ll> >ans(sz,vector<ll>(sz,0));
+    for(ll i=0;i<sz;i++)
+    {
+        for(ll j=0;j<sz;j++)
+        {
+            for(ll k=0;k<sz;k++)
+            {
+                ans[i][j]+=v1[i][k]*v2[k][j];
+                ans[i][j]%=mod;
+            }
+        }
+    }
+    return ans;
+}
+vector<vector<ll> > matrixexponentiate(vector<vector<ll> >&v,ll n)
+{
+    if(n==0)
+    {
+        ll sz=v.size();
+        vector<vector<ll> >ans(sz,vector<ll>(sz,0));
+        for(ll i=0;i<sz;i++)
+        {
+            ans[i][i]=1;
+        }
+        return ans;
+    }
+    if(n==1)
+    {
+        return v;
+    }
+    vector<vector<ll> >tmp=matrixexponentiate(v,n/2);
+    vector<vector<ll> >ans=multiply(tmp,tmp);
+    if(n%2==1)
+    {
+        ans=multiply(ans,v);
+    }
+    return ans;
+}
